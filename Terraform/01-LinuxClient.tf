@@ -1,29 +1,54 @@
-module "linuxservers" {
-  source                           = "Azure/compute/azurerm"
-  resource_group_name              = azurerm_resource_group.east.name
-  vm_hostname                      = var.serv_prefix
-  nb_public_ip                     = 1
-  remote_port                      = "22"
-  nb_instances                     = 1
-  vm_os_publisher                  = var.linux_vm_os_publisher
-  vm_os_offer                      = var.linux_vm_os_offer
-  vm_os_sku                        = var.linux_vm_os_sku
-  vnet_subnet_id                   = module.network.vnet_subnets[0]
-  boot_diagnostics                 = true
-  delete_os_disk_on_termination    = true
-  nb_data_disk                     = 1
-  data_disk_size_gb                = 64
-  data_sa_type                     = var.linux_sa_type
-  enable_ssh_key                   = true
-  ssh_key_values                   = ["${var.linux_ssh_key}"]
-  vm_size                          = var.linux_vm_size
-  delete_data_disks_on_termination = true
+# This pulls a Ubuntu Datacenter from Microsoft's VM platform directly
+resource "azurerm_linux_virtual_machine" "operator" {
+  name                = var.linux_server
+  resource_group_name = azurerm_resource_group.east.name
+  location            = azurerm_resource_group.east.location
+  size                = var.linux_vm_size
+  admin_username      = var.winadmin_username
+  network_interface_ids = [
+    azurerm_network_interface.linux1.id
+  ]
 
-  tags = {
-    environment = "dev"
-    costcenter  = "it"
+  admin_ssh_key {
+    username   = var.winadmin_username
+    public_key = file("${var.linux_ssh_key}")
   }
 
-  enable_accelerated_networking = true
+  # Cloud-Init passed here
+  #custom_data = ""
+
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = var.linux_sa_type
+  }
+
+  source_image_reference {
+    publisher = var.linux_vm_os_publisher
+    offer     = var.linux_vm_os_offer
+    sku       = var.linux_vm_os_sku
+    version   = "latest"
+  }
   depends_on = [azurerm_resource_group.east]
 }
+/*
+# Create cloud-init file to be passed into linux vm
+data "template_cloudinit_config" "config" {
+  gzip          = true
+  base64_encode = true
+
+  # Main cloud-config configuration file.
+  part {
+    content_type = "text/cloud-config"
+    content      = "packages: ['python-pip']"
+  }
+  part {
+    content_type = "text/cloud-config"
+    content      = "runcmd: [
+      'sudo apt update',
+      'sudo pip install ansible',
+      'sudo ansible-galaxy install azure.azure_preview_modules',
+      'sudo pip install -r ~/.ansible/roles/azure.azure_preview_modules/files/requirements-azure.txt,'
+      ]"
+  }
+}
+*/

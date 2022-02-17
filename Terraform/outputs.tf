@@ -1,21 +1,15 @@
-# Windows Server Information to Output
-output "win_network_interface_private_ip" {
-    value = module.windowsservers.network_interface_private_ip
+output "Public_IP_Linux" {
+    value = azurerm_public_ip.linux_public.ip_address
 }
-output "win_public_ip_address" {
-    value = module.windowsservers.public_ip_address
-}
-output "win_public_ip_dns_name" {
-    value = module.windowsservers.public_ip_dns_name
+output "Private_IP_Linux" {
+    value = azurerm_network_interface.linux1.private_ip_address
 }
 
-# Linux Information to output
-output "linux_network_interface_private_ip" {
-    value = module.linuxservers.network_interface_private_ip
-}
-output "linux_public_ip_address" {
-    value = module.linuxservers.public_ip_address
-}
-output "linux_public_ip_dns_name" {
-    value = module.linuxservers.public_ip_dns_name
+output "Private_IP_WinServ" {
+    value = [
+        "PDC: ${azurerm_windows_virtual_machine.pdc.private_ip_address}",
+        "RDC: ${azurerm_windows_virtual_machine.rdc.private_ip_address}",
+        "DHCP: ${azurerm_windows_virtual_machine.dhcp.private_ip_address}",
+        "FILE: ${azurerm_windows_virtual_machine.file.private_ip_address}"
+        ]
 }

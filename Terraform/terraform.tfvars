@@ -19,10 +19,18 @@ linux_sa_type         = "Premium_LRS"
 winadmin_username = "SuperAdministrator"
 winadmin_password = "Password1234"
 
-# Naming Schemes
-serv_prefix = "AJB"
-winserv_pdc    = "pdc"
-winserv_rdc    = "rdc"
-winserv_dhcp   = "dhcp"
-winserv_file   = "file"
-linux_client   = "operator"
+# Naming Schemes 
+winserv_pdc    = "ajb-pdc"
+winserv_rdc    = "ajb-rdc"
+winserv_dhcp   = "ajb-dhcp"
+winserv_file   = "ajb-file"
+linux_server   = "ajb-operator"
+
+# Networking Variables
+winserv1_private_ip   = "10.0.1.10"
+winserv2_private_ip   = "10.0.1.11"
+winserv3_private_ip   = "10.0.1.12"
+winserv4_private_ip   = "10.0.1.13"
+linux1_priavte_ip     = "10.0.1.9"
+east_address_spaces  = "10.0.0.0/16"
+east_subnets         = "10.0.1.0/24"
