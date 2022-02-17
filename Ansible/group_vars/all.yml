@@ -1,5 +1,5 @@
 ---
-ansible_user: administrator
+ansible_user: SuperAdministrator
 ansible_password: "Password1234"
 ansible_port: 5985
 ansible_connection: winrm

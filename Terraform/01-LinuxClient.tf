@@ -45,9 +45,14 @@ data "template_cloudinit_config" "config" {
     content_type = "text/cloud-config"
     content      = "runcmd: [
       'sudo apt update',
+      `sudo apt-get install git'
       'sudo pip install ansible',
       'sudo ansible-galaxy install azure.azure_preview_modules',
       'sudo pip install -r ~/.ansible/roles/azure.azure_preview_modules/files/requirements-azure.txt,'
+      ' pip install "pywinrm>=0.2.2"',
+      'git clone https://github.com/Cinderblook/Azure-Serv-Deploy.git'
+      'cd Azure-Serv-Deploy/Ansible/'
+      'ansible-playbook winlab.yml'
       ]"
   }
 }

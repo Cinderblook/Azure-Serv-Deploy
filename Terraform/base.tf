@@ -118,7 +118,7 @@ resource "azurerm_network_security_group" "linux1" {
   }
 }
 resource "azurerm_network_security_group" "winserv" {
-  name                = "Allow-RDP"
+  name                = "Allow-RDP-SSH"
   location            = azurerm_resource_group.east.location
   resource_group_name = azurerm_resource_group.east.name
   security_rule {
@@ -129,6 +129,17 @@ resource "azurerm_network_security_group" "winserv" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "3389"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+  security_rule {
+    name                       = "SSH"
+    priority                   = 102
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "22"
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }

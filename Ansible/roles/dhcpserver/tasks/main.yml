@@ -33,5 +33,5 @@
   win_shell: Set-DhcpServerv4Scope -ScopeId 10.175.128.185 -LeaseDuration 1.00:00:00
 - name: Restart DHCP service
   win_shell: Restart-service dhcpserver
-- #name: Add DHCP as Authorized Server
+  #name: Add DHCP as Authorized Server
   #win_shell: Add-DhcpServerInDC -DnsName AJB52-DHCP.ajb2.local -IPAddress 10.175.128.183
