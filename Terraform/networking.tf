@@ -1,15 +1,3 @@
-# Base config
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = ">=2.91.0"
-    }
-  }
-}
-provider "azurerm" {
-  features {}
-}
 # Create a resource group to maintain security settings along with network interfaces for VMs
 resource "azurerm_resource_group" "east" {
   name     = "terra-resources"

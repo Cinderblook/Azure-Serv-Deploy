@@ -15,7 +15,7 @@ resource "azurerm_linux_virtual_machine" "operator" {
   }
 
   # Cloud-Init passed here
-  #custom_data = ""
+  custom_data = data.template_cloudinit_config.config.rendered
 
   os_disk {
     caching              = "ReadWrite"
@@ -28,32 +28,33 @@ resource "azurerm_linux_virtual_machine" "operator" {
     sku       = var.linux_vm_os_sku
     version   = "latest"
   }
-  depends_on = [azurerm_resource_group.east]
+  depends_on = [azurerm_resource_group.east, azurerm_network_interface.linux1]
 }
-/*
+
 # Create cloud-init file to be passed into linux vm
+data "template_file" "user_data" {
+  template = file("./cloudinit/custom.yml")
+}
+
+# Render a multi-part cloud-init config making use of the part
+# above, and other source files
 data "template_cloudinit_config" "config" {
   gzip          = true
   base64_encode = true
 
   # Main cloud-config configuration file.
   part {
+    filename     = "init.cfg"
     content_type = "text/cloud-config"
-    content      = "packages: ['python-pip']"
+    content      = "${data.template_file.user_data.rendered}"
   }
+ /* part {
+    content_type = "text/x-shellscript"
+    content      = "baz"
+  }
+
   part {
-    content_type = "text/cloud-config"
-    content      = "runcmd: [
-      'sudo apt update',
-      `sudo apt-get install git'
-      'sudo pip install ansible',
-      'sudo ansible-galaxy install azure.azure_preview_modules',
-      'sudo pip install -r ~/.ansible/roles/azure.azure_preview_modules/files/requirements-azure.txt,'
-      ' pip install "pywinrm>=0.2.2"',
-      'git clone https://github.com/Cinderblook/Azure-Serv-Deploy.git'
-      'cd Azure-Serv-Deploy/Ansible/'
-      'ansible-playbook winlab.yml'
-      ]"
-  }
+    content_type = "text/x-shellscript"
+    content      = "ffbaz"
+  }*/
 }
-*/
