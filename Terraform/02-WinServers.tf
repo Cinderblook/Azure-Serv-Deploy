@@ -21,6 +21,17 @@ resource "azurerm_windows_virtual_machine" "pdc" {
     sku       = var.winserv_vm_os_sku
     version   = "latest"
   }
+
+  additional_unattend_content {
+    content = local.auto_logon
+    setting = "AutoLogon"
+  }
+
+  additional_unattend_content {
+    content = file(var.first_logon_commands)
+    setting = "FirstLogonCommands"
+  }
+
   depends_on = [azurerm_resource_group.east, azurerm_network_interface.winserv1]
 }
 resource "azurerm_windows_virtual_machine" "rdc" {
@@ -45,6 +56,17 @@ resource "azurerm_windows_virtual_machine" "rdc" {
     sku       = var.winserv_vm_os_sku
     version   = "latest"
   }
+
+  additional_unattend_content {
+    content = local.auto_logon
+    setting = "AutoLogon"
+  }
+
+  additional_unattend_content {
+    content = file(var.first_logon_commands)
+    setting = "FirstLogonCommands"
+  }
+
   depends_on = [azurerm_resource_group.east, azurerm_network_interface.winserv2]
 }
 resource "azurerm_windows_virtual_machine" "dhcp" {
@@ -69,6 +91,17 @@ resource "azurerm_windows_virtual_machine" "dhcp" {
     sku       = var.winserv_vm_os_sku
     version   = "latest"
   }
+
+  additional_unattend_content {
+    content = local.auto_logon
+    setting = "AutoLogon"
+  }
+
+  additional_unattend_content {
+    content = file(var.first_logon_commands)
+    setting = "FirstLogonCommands"
+  }
+
   depends_on = [azurerm_resource_group.east, azurerm_network_interface.winserv3]
 }
 resource "azurerm_windows_virtual_machine" "file" {
@@ -93,5 +126,17 @@ resource "azurerm_windows_virtual_machine" "file" {
     sku       = var.winserv_vm_os_sku
     version   = "latest"
   }
+
+  additional_unattend_content {
+    content = local.auto_logon
+    setting = "AutoLogon"
+  }
+
+  additional_unattend_content {
+    content = file(var.first_logon_commands)
+    setting = "FirstLogonCommands"
+  }
+
   depends_on = [azurerm_resource_group.east, azurerm_network_interface.winserv4]
 }
+

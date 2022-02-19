@@ -6,6 +6,7 @@ winserv_vm_size             = "Standard_DS1_V2"
 winserv_license             = "Windows_Server"
 winserv_allocation_method   = "Static"
 winserv_public_ip_sku       = "Standard"
+first_logon_commands        = "./winfiles/FirstLogonCommands.xml"
 
 # Azure Linux Server related params
 linux_vm_os_publisher = "Canonical"
@@ -34,3 +35,4 @@ winserv4_private_ip   = "10.0.1.13"
 linux1_priavte_ip     = "10.0.1.9"
 east_address_spaces  = "10.0.0.0/16"
 east_subnets         = "10.0.1.0/24"
+

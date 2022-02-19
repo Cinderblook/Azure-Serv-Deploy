@@ -35,7 +35,7 @@ resource "azurerm_linux_virtual_machine" "operator" {
 data "template_file" "user_data" {
   template = file("./cloudinit/custom.yml")
 }
-
+ 
 # Render a multi-part cloud-init config making use of the part
 # above, and other source files
 data "template_cloudinit_config" "config" {
