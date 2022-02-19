@@ -25,8 +25,8 @@ variable "winserv2_private_ip" {}
 variable "winserv3_private_ip" {}
 variable "winserv4_private_ip" {}
 variable "linux1_priavte_ip" {}
-variable "first_logon_commands" {}
 
 locals{
+    first_logon_commands        = file("${path.module}/winfiles/FirstLogonCommands.xml")
     auto_logon                  = "<AutoLogon><Password><Value>${var.winadmin_password}</Value></Password><Enabled>true</Enabled><LogonCount>1</LogonCount><Username>${var.winadmin_username}</Username></AutoLogon>"
 }

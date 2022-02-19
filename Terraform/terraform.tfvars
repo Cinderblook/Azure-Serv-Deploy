@@ -6,7 +6,6 @@ winserv_vm_size             = "Standard_DS1_V2"
 winserv_license             = "Windows_Server"
 winserv_allocation_method   = "Static"
 winserv_public_ip_sku       = "Standard"
-first_logon_commands        = "./winfiles/FirstLogonCommands.xml"
 
 # Azure Linux Server related params
 linux_vm_os_publisher = "Canonical"

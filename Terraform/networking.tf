@@ -25,6 +25,14 @@ resource "azurerm_public_ip" "linux_public" {
   allocation_method   = "Static"
 
 }
+# TEMPORARY Create public IP variable for Linux machine
+resource "azurerm_public_ip" "win_public" {
+  name                = "PublicIp1"
+  resource_group_name = azurerm_resource_group.east.name
+  location            = azurerm_resource_group.east.location
+  allocation_method   = "Static"
+
+}
 # ASSIGN NETWORK INTERFACE PER VM WE WILL BE USING
 resource "azurerm_network_interface" "linux1" {
   name                = "linux1-nic"
@@ -49,6 +57,7 @@ resource "azurerm_network_interface" "winserv1" {
     subnet_id                     = azurerm_subnet.subnet1.id
     private_ip_address_allocation = "Static"
     private_ip_address            = var.winserv1_private_ip
+    public_ip_address_id          = azurerm_public_ip.win_public.id
   }
 }
 resource "azurerm_network_interface" "winserv2" {

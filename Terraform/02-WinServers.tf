@@ -28,7 +28,7 @@ resource "azurerm_windows_virtual_machine" "pdc" {
   }
 
   additional_unattend_content {
-    content = file(var.first_logon_commands)
+    content = local.first_logon_commands
     setting = "FirstLogonCommands"
   }
 
@@ -63,7 +63,7 @@ resource "azurerm_windows_virtual_machine" "rdc" {
   }
 
   additional_unattend_content {
-    content = file(var.first_logon_commands)
+    content = local.first_logon_commands
     setting = "FirstLogonCommands"
   }
 
@@ -98,7 +98,7 @@ resource "azurerm_windows_virtual_machine" "dhcp" {
   }
 
   additional_unattend_content {
-    content = file(var.first_logon_commands)
+    content = local.first_logon_commands
     setting = "FirstLogonCommands"
   }
 
@@ -133,7 +133,7 @@ resource "azurerm_windows_virtual_machine" "file" {
   }
 
   additional_unattend_content {
-    content = file(var.first_logon_commands)
+    content = local.first_logon_commands
     setting = "FirstLogonCommands"
   }
 
