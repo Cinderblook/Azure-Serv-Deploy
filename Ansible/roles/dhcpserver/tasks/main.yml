@@ -34,5 +34,5 @@
   win_shell: Set-DhcpServerv4Scope -ScopeId "{{ dhcp_scope_start }}" -LeaseDuration 1.00:00:00
 - name: Restart DHCP service
   win_shell: Restart-service dhcpserver
-  #name: Add DHCP as Authorized Server
-  #win_shell: Add-DhcpServerInDC -DnsName AJB52-DHCP.ajb2.local -IPAddress "{{ groups['pdc'][0] }}"
+- name: Add DHCP as Authorized Server
+  win_shell: Add-DhcpServerInDC 

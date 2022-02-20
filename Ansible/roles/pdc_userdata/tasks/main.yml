@@ -35,13 +35,15 @@
 # Create multiple users for Domain and add to respective groups
 - name: Create Guest User
   community.windows.win_domain_user:
-    name: Guest
+    name: GuestUser
     firstname: Guest
     surname: User
     password: Password1234
     state: present
     path: "ou=Guests, dc={{ netbios_domain }}, dc={{ top_level_domain }}"
-    groups: Guests
+    groups: 
+    - Guests
+    - Domain Guests
     domain_username: "{{ domain_admin_username }}"
     domain_password: "{{ domain_admin_password }}"
     domain_server: "{{ primary_domain_controller }}"
