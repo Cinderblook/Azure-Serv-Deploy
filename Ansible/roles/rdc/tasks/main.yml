@@ -10,6 +10,10 @@
     name: "{{ replica_domain_controller }}"
   register: res
 
+- name: Reboot
+  ansible.windows.win_reboot:
+  when: res.reboot_required
+
 - name: join domain
   win_domain_membership:
     dns_domain_name: "{{ domain }}"
