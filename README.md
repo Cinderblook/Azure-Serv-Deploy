@@ -17,7 +17,8 @@ Main role: Deploy the Virtual Machines, setup Network environment, and provide i
 <br>
 
 ## Prerequisites
-- Must install and setup [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) or preferred method of authentication to Azure
+- Setup necessary Terraform [environment](https://learn.hashicorp.com/tutorials/terraform/install-cli)
+- Install and setup [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) or preferred method of authentication to Azure
 - Configure variables for desired outcomes (Outlined further down)
 <br>
 
