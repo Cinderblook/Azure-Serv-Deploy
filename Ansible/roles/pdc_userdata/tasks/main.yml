@@ -21,17 +21,17 @@
   win_dsc:
     resource_name: ADOrganizationalUnit
     name: "Staff"
-    path: dc="{{ netbios_domain }}", "{{ top_level_domain }}"
+    path: "dc={{ netbios_domain }}, dc={{ top_level_domain }}"
 - name: Create OU for  Admin
   win_dsc:
     resource_name: ADOrganizationalUnit
     name: "Admins"
-    path: dc="{{ netbios_domain }}", dc="{{ top_level_domain }}"
+    path: "dc={{ netbios_domain }}, dc={{ top_level_domain }}"
 - name: Create OU for Guests
   win_dsc:
     resource_name: ADOrganizationalUnit
     name: "Guests"
-    path: dc="{{ netbios_domain }}", dc="{{ top_level_domain }}"
+    path: "dc={{ netbios_domain }}, dc={{ top_level_domain }}"
 # Create multiple users for Domain and add to respective groups
 - name: Create Guest User
   community.windows.win_domain_user:
@@ -40,7 +40,7 @@
     surname: User
     password: Password1234
     state: present
-    path: ou=Guests, dc="{{ netbios_domain }}", dc="{{ top_level_domain }}"
+    path: "ou=Guests, dc={{ netbios_domain }}, dc={{ top_level_domain }}"
     groups: Guests
     domain_username: "{{ netbios_domain }}@{{ ansible_user }}"
     domain_password: "{{ domain_admin_password }}"
@@ -52,7 +52,7 @@
     surname: Barnes
     password: Password1234
     state: present
-    path: ou=Admins, dc="{{ netbios_domain }}", dc="{{ top_level_domain }}"
+    path: "ou=Admins, dc={{ netbios_domain }}, dc={{ top_level_domain }}"
     groups: 
     - Employees
     - Domain Users
@@ -68,7 +68,7 @@
     surname: Doe
     password: Password1234
     state: present
-    path: ou=Staff, dc="{{ netbios_domain }}", dc="{{ top_level_domain }}"
+    path: "ou=Staff, dc={{ netbios_domain }}, dc={{ top_level_domain }}"
     groups: 
     - Employees
     - Domain Users
@@ -82,7 +82,7 @@
     surname: Smith
     password: Password1234
     state: present
-    path: ou=Staff, dc="{{ netbios_domain }}", dc="{{ top_level_domain }}"
+    path: "ou=Staff, dc={{ netbios_domain }}, dc={{ top_level_domain }}"
     groups: 
     - Employees
     - Domain Users
