@@ -115,6 +115,7 @@ Main role: Configure the deployed Virtual Machines.
     - Alter domain variables as well
 
 ## Running Ansible
+This is taken care of with terraform cloud-init file along with the file provisioner. The alternative would be below.
 - On Linux Machine,
     - Requires: Python-pip, ansible-galaxzy-azure.azure_preview_modules
     - To Run: Navigate to Ansible directory and type `ansible-playbook winlab.yml`
