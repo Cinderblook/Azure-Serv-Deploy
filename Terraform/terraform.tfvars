@@ -6,6 +6,7 @@ winserv_vm_size             = "Standard_DS1_V2"
 winserv_license             = "Windows_Server"
 winserv_allocation_method   = "Static"
 winserv_public_ip_sku       = "Standard"
+winserv_sa_type             = "Standard_LRS"
 
 # Azure Linux Server related params
 linux_vm_os_publisher = "Canonical"

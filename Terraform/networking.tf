@@ -27,7 +27,7 @@ resource "azurerm_public_ip" "linux_public" {
 }
 # TEMPORARY Create public IP variable for Linux machine
 resource "azurerm_public_ip" "win_public" {
-  name                = "PublicIp1"
+  name                = "PublicIp2"
   resource_group_name = azurerm_resource_group.east.name
   location            = azurerm_resource_group.east.location
   allocation_method   = "Static"
@@ -96,7 +96,7 @@ resource "azurerm_network_interface" "winserv4" {
     private_ip_address            = var.winserv4_private_ip
   }
 }
-# CREATE SECURITY GROUPs TO ALLOW SSH/RDP FOR VMs
+# CREATE SECURITY GROUPs TO ALLOW SSH/RDP/ANSIBLE FOR VMs
 resource "azurerm_network_security_group" "linux1" {
   name                = "Allow-SSH"
   location            = azurerm_resource_group.east.location

@@ -12,7 +12,7 @@ resource "azurerm_windows_virtual_machine" "pdc" {
 
   os_disk {
     caching              = "ReadWrite"
-    storage_account_type = "Standard_LRS"
+    storage_account_type = var.winserv_sa_type
   }
 
   source_image_reference {
@@ -47,7 +47,7 @@ resource "azurerm_windows_virtual_machine" "rdc" {
 
   os_disk {
     caching              = "ReadWrite"
-    storage_account_type = "Standard_LRS"
+    storage_account_type = var.winserv_sa_type
   }
 
   source_image_reference {
@@ -82,7 +82,7 @@ resource "azurerm_windows_virtual_machine" "dhcp" {
 
   os_disk {
     caching              = "ReadWrite"
-    storage_account_type = "Standard_LRS"
+    storage_account_type = var.winserv_sa_type
   }
 
   source_image_reference {
@@ -117,7 +117,7 @@ resource "azurerm_windows_virtual_machine" "file" {
 
   os_disk {
     caching              = "ReadWrite"
-    storage_account_type = "Standard_LRS"
+    storage_account_type = var.winserv_sa_type
   }
 
   source_image_reference {

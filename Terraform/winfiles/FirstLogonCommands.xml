@@ -15,8 +15,13 @@
         <Order>13</Order>
     </SynchronousCommand>
     <SynchronousCommand>
+        <CommandLine>winrm set winrm/config/Service/Auth @{Basic=\"true\"}</CommandLine>
+        <Description>Allow Ansible config to traverse the internal subnet basic</Description>
+        <Order>14</Order>
+    </SynchronousCommand>
+    <SynchronousCommand>
         <CommandLine>netsh advfirewall set allprofiles state off</CommandLine>
         <Description>Allow Ansible config to traverse the internal subnet unencrypted</Description>
-        <Order>14</Order>
+        <Order>15</Order>
     </SynchronousCommand>
 </FirstLogonCommands>

@@ -5,6 +5,7 @@ variable "winserv_vm_size" {}
 variable "winadmin_username" {}
 variable "winadmin_password" {}
 variable "winserv_license" {}
+variable "winserv_sa_type" {}
 variable "winserv_pdc" {}
 variable "winserv_rdc" {} 
 variable "winserv_dhcp" {} 

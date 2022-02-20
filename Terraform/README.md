@@ -1,21 +1,66 @@
-## Terraform
-Main role: Deploy the Virtual Machines
--   Setup the four Windows Servers (Primary Domain Controller, Replica Domain Controller, DHCP, Fileshare)
+# Terraform
+Main role: Deploy the Virtual Machines, setup Network environment, and provide intial parameters for both Windows and Linux environments running in the cloud
+-   Setup the four Windows Servers (Primary Domain Controller, Replica Domain Controller, DHCP, Fileshare) in Azure
+    - These will all be Windows 2022 Datacenter Servers running on Standard_DS1_V2 by default
+-   Setup the one Linux server to deploy a pre-defined Ansible configuration across the Windows Environment for setting up Active Directory, DHCP, File shares, users, and groups.
+    - This will all be an Ubuntu 18.04-LTS server running on Standard_B1s by default
+    - It will use cloud-init to supply it the necessary setup at creation for Ansible and SSH connection VIA its public IP address.
+-   Supply necessary networking variables (Network interfaces, Security Groups, IP Addressing)
+-   Supply necessary files for automation of Windows & Linux environments (Cloud-Init & Windows Unattend files)
+
 <br>
 
 ## Prerequisites
-- Must install and setup Azure CLI or preferred method of authentication to Azure
+- Must install and setup [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) or preferred method of authentication to Azure
+- Configure variables for desired outcomes (Outlined further down)
 <br>
 
-## Terraform Variable files 
--  Alter variables within these files to ensure it meets your needs
+## Terraform process
+- Using the Azure provider:
+    - Login to Azure with `az connect`
+- Once prepared with appropriate values and the networking is in place: 
+    - Navigate to the Terraform directory and run these commands
+    - `terraform init` Pull proper Terraform providers and modules used
+    - `terraform validate` This will return whether the configuration is valid or not
+    - `terraform apply` ... `yes` Actually apply the configuration
+
+## Terraform File Structure
+
+###  *provider.tf* File
+- Calls necessary providers and sets their versions to be used in the Terraform configuration/deployment
+###  *networking.tf* File
+- Defines resources, security groups, security rules, network interfaces, subnets, and public IPs to be created in Azure. 
+    - These variables are pulled from the VM creation resources
+    - Managed with variables contained in terraform.tfvars file
+
+###  *variables.tf, terraform.tfvars* Files
+-  Alter variables within these files to ensure they meet your environment needs
     - *variables.tf*
-        - Declare variables that will be used with the Terraform configuration
+        - Declare variables that will be used with the Terraform configuration (Delcared intially or explicitely here as `locals` variables)
+            - *firsT_logon_commands* local variable points to a .xml file to configure first time logon in Windows. This enables each server to recieve Winrm data on port 5985 for Ansible configuration
+            - *auto_logon_ runs a .xml configuration to log in once right after intial creation of VM. This allows *first_logon_commands* to execute automatically
     - *terraform.tfvars*
-        - Assign variables that will be used with the Terraform configuration
-    - *01-LinuxClient.tf* & *02-WinServers.tf*
-        - Ensure variables match up, and alter nb_instance, nb_public_ip number to fit desired number of virtual machines along with public ip addresses to match in Azure
-## Azure - Finding variable information for VM Images:
+        - Assign variables values here. These will be used with the Terraform configuration. If left blank, you can assign the variable at the terminal level when running the `terraform apply` 
+            - Alter Network values to desired IP addressing scheme
+                -  **Ensure IP addressing matches that in the Ansible configuration inventory.yml**
+            - Here you can alter azure values for _publisher_, _offer_, _sku_, _size_, _sa_, and _license_ information for the Windows/Linux VMs
+            - Additionally, ensure `linux_ssh_key` point to your public Key `id_rsa.pubc` file
+            - I recommend to change _winadmin_username_ & _winadmin_password_ variables to sensetive and blank so you can delcare them in preferrably Vaulty or via the CLI 
+                - **_winadmin_username_ & _winadmin_password_ MUST MATCH WHAT IS IN ANSIBLE /group_vars/all.yml**
+
+### *01-LinuxClient.tf* & *02-WinServers.tf* Files
+- Here the creation of the VMs occur. Resources pull data from _networking.tf_, _variables.tf_, _terraform.tfvars_ files.
+    - Windows VMs are assigned unattend configurations for first time setup (/winfiles/FirstLogonCommands.xml && _auto_logon_ variable data)
+    - Linux Machine is assigned a cloud-init file configuraiton for first time setup (/cloudinit/custom.yml)
+
+### *outputs.tf* File
+- Provides necessary ip information that is allocated to the VMs created.
+- This information by default includes:
+    - Private IPs for all 5 deployed VMs (Which we know will by based on variables.tf file data)
+    - Public IP for Linux machine (Not known by default, will be used for SSH connection if needed).
+
+## Useful Azure related functions
+Finding variable information for VM Images variables:
 - You can use this command in Azure CLI to find UbuntuServer data. Change the values in offer, publisher, location, and sku for various other images.
  ````Powershell
     az vm image list \
@@ -25,24 +70,10 @@ Main role: Deploy the Virtual Machines
     --sku 18.04-LTS \
     --all --output table
 ````
-
 -  "Check out Microsoft's" [documentation](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/cli-ps-findimage) on finding VM information
-
-
-## Terraform process
-- Using the Azure provider:
-    - Assign appropriate resources to each machine 
-- Once prepared with appropriate values and the networking is in place: 
-    - Navigate to the Terraform directory and run these commands
-    - `terraform init` Pull proper Terraform providers and modules used
-    - `terraform validate` This will return whether the configuration is valid or not
-    - `terraform apply` ... `yes` Actually apply the configuration
-
-## Terraform Outputs file
-- *outputs.tf*
-    - Provides necessary ip information that is allocated to the VMs created.
-    - This information will be used in the Ansible configuration to identify these machines.
 
 ## Useful Terraform Resources
 - Terraform [Documentation](https://www.terraform.io/docs)
-- Azure[Provider](https://registry.terraform.io/providers/hashicorp/azurerm/2.96.0) & [Module](https://registry.terraform.io/modules/Azure/compute/azurerm/latest)
+- Azure [Provider](https://registry.terraform.io/providers/hashicorp/azurerm/2.96.0) & [Modules](https://registry.terraform.io/modules/Azure/compute/azurerm/latest)
+- Cloud-init [Documentation](https://cloudinit.readthedocs.io/en/latest/)
+- [terraform-provider-azurerm](https://github.com/hashicorp/terraform-provider-azurerm) examples and documentation on GitHub
