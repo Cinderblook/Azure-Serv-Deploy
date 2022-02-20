@@ -15,6 +15,7 @@ linux_vm_os_sku       = "18.04-LTS"
 linux_vm_size         = "Standard_B1s"
 linux_ssh_key         = "C:/Users/austi/.ssh/id_rsa.pub"
 linux_sa_type         = "Premium_LRS"
+linux_ssh_key_pv      = "C:/Users/austi/.ssh/id_rsa"
 
 # Which Windows administrator password to set during vm customization
 winadmin_username = "SuperAdministrator"

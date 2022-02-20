@@ -17,6 +17,7 @@ variable "linux_vm_os_sku" {}
 variable "linux_vm_size" {}
 variable "linux_ssh_key" {}
 variable "linux_sa_type" {}
+variable "linux_ssh_key_pv" {}
 variable "winserv_allocation_method" {}
 variable "east_address_spaces" {}
 variable "east_subnets" {}

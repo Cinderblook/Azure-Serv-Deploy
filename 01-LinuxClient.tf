@@ -28,6 +28,7 @@ resource "azurerm_linux_virtual_machine" "operator" {
     sku       = var.linux_vm_os_sku
     version   = "latest"
   }
+
   depends_on = [azurerm_resource_group.east, azurerm_network_interface.linux1]
 }
 
@@ -48,13 +49,20 @@ data "template_cloudinit_config" "config" {
     content_type = "text/cloud-config"
     content      = "${data.template_file.user_data.rendered}"
   }
- /* part {
-    content_type = "text/x-shellscript"
-    content      = "baz"
-  }
+}
 
-  part {
-    content_type = "text/x-shellscript"
-    content      = "ffbaz"
-  }*/
+  # Pass Ansible File into created Linux VM using SCP (SSH Port 22)
+resource "null_resource" "copyansible"{ 
+  connection {
+    type        = "ssh"
+    host        = azurerm_public_ip.linux_public.ip_address
+    user        = var.winadmin_username
+    private_key = file("${var.linux_ssh_key_pv}")
+  }
+  
+  provisioner "file" {
+    source = "${path.module}/Ansible"
+    destination = "/tmp/" 
+  }
+  depends_on = [azurerm_linux_virtual_machine.operator]
 }
