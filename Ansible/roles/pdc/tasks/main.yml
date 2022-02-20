@@ -1,7 +1,7 @@
 ---
 - name: Change the hostname to sample-hostname
   ansible.windows.win_hostname:
-    name: AJB52-PDC
+    name: "{{ primary_domain_controller }}"
   register: res
 
 - name: Reboot

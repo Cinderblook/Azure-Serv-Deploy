@@ -42,9 +42,9 @@
     state: present
     path: "ou=Guests, dc={{ netbios_domain }}, dc={{ top_level_domain }}"
     groups: Guests
-    domain_username: "{{ netbios_domain }}@{{ ansible_user }}"
+    domain_username: "{{ domain_admin_username }}"
     domain_password: "{{ domain_admin_password }}"
-    domain_server: ajb52-pdc
+    domain_server: "{{ primary_domain_controller }}"
 - name: Create administrator Account
   community.windows.win_domain_user:
     name: AbarnesAdmin
@@ -58,9 +58,9 @@
     - Domain Users
     - Domain Admins
     - Enterprise Admins
-    domain_username: "{{ netbios_domain }}@{{ ansible_user }}"
+    domain_username: "{{ domain_admin_username }}"
     domain_password: "{{ domain_admin_password }}"
-    domain_server: ajb52-pdc
+    domain_server: "{{ primary_domain_controller }}"
 - name: Create Employee account John
   community.windows.win_domain_user:
     name: John
@@ -72,9 +72,9 @@
     groups: 
     - Employees
     - Domain Users
-    domain_username: "{{ netbios_domain }}@{{ ansible_user }}"
+    domain_username: "{{ domain_admin_username }}"
     domain_password: "{{ domain_admin_password }}"
-    domain_server: ajb52-pdc 
+    domain_server: "{{ primary_domain_controller }}"
 - name: Create Employee account Sadie
   community.windows.win_domain_user:
     name: Sadie
@@ -86,6 +86,6 @@
     groups: 
     - Employees
     - Domain Users
-    domain_username: "{{ netbios_domain }}@{{ ansible_user }}"
+    domain_username: "{{ domain_admin_username }}"
     domain_password: "{{ domain_admin_password }}"
-    domain_server: ajb52-pdc 
+    domain_server: "{{ primary_domain_controller }}"
