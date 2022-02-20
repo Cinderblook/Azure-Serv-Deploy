@@ -6,18 +6,10 @@
       - "{{ groups['pdc'][0] }}"
       - "{{ groups['rdc'][0] }}"
 
-- name: Change the hostname to sample-hostname
-  ansible.windows.win_hostname:
-    name: "{{ primary_dhcp_server }}"
-  register: res
-
-- name: Reboot
-  ansible.windows.win_reboot:
-  when: res.reboot_required
-
 - name: join domain
   win_domain_membership:
     dns_domain_name: "{{ domain }}"
+    hostname: "{{ primary_dhcp_server }}"
     domain_admin_user: "{{ domain_admin }}"
     domain_admin_password: "{{ domain_admin_password }}"
     state: domain
