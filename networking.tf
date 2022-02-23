@@ -25,7 +25,7 @@ resource "azurerm_public_ip" "linux_public" {
   allocation_method   = "Static"
 
 }
-# TEMPORARY Create public IP variable for Linux machine
+# Create public IP variable for Windows machine
 resource "azurerm_public_ip" "win_public" {
   name                = "PublicIp2"
   resource_group_name = azurerm_resource_group.east.name

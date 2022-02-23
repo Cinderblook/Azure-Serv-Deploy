@@ -1,6 +1,9 @@
 output "Public_IP_Linux" {
     value = azurerm_public_ip.linux_public.ip_address
 }
+output "Public_IP_Windows" {
+    value = azurerm_public_ip.win_public.ip_address
+}
 output "Private_IP_Linux" {
     value = azurerm_network_interface.linux1.private_ip_address
 }
