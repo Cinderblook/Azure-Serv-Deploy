@@ -1,5 +1,6 @@
-# Azure-Serv-Deploy
-## Deploy and Configure 4 Windows 2022 Datacenter Servers in Azure
+# Overview
+
+Deploy and Configure 4 Windows 2022 Datacenter Servers in Azure.
 - Using Terraform in conjunction with Ansible: Create 4 Windows Servers
   - Configure them to be a Primary Domain Controller, Replica Domain Controller, DHCP server, and Fileshare server    
   - Automate intial setup of the 4 servers to accept Ansible configuration from a Linux VM in Azure created VIA the Terraform deployment
@@ -79,11 +80,6 @@ Finding variable information for VM Images variables:
 ````
 -  "Check out Microsoft's" [documentation](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/cli-ps-findimage) on finding VM information
 
-## Useful Terraform Resources
-- Terraform [Documentation](https://www.terraform.io/docs)
-- Azure [Provider](https://registry.terraform.io/providers/hashicorp/azurerm/2.96.0) & [Modules](https://registry.terraform.io/modules/Azure/compute/azurerm/latest)
-- Cloud-init [Documentation](https://cloudinit.readthedocs.io/en/latest/)
-- [terraform-provider-azurerm](https://github.com/hashicorp/terraform-provider-azurerm) examples and documentation on GitHub
 
 # Ansible
 Main role: Configure the deployed Virtual Machines.
@@ -119,7 +115,15 @@ This is taken care of with terraform cloud-init file along with the file provisi
 - On Linux Machine,
     - Requires: Python-pip, ansible-galaxzy-azure.azure_preview_modules
     - To Run: Navigate to Ansible directory and type `ansible-playbook winlab.yml`
-    
-## Useful Ansible Resources
+
+# Useful Resources 
+## Terraform Resources
+- Terraform [Documentation](https://www.terraform.io/docs)
+- Azure [Provider](https://registry.terraform.io/providers/hashicorp/azurerm/2.96.0) & [Modules](https://registry.terraform.io/modules/Azure/compute/azurerm/latest)
+- Cloud-init [Documentation](https://cloudinit.readthedocs.io/en/latest/)
+- [terraform-provider-azurerm](https://github.com/hashicorp/terraform-provider-azurerm) examples and documentation on GitHub
+## Ansible Resources
 - Ansible [Documentation](https://docs.ansible.com/)
   - [Windows-Modules](https://galaxy.ansible.com/ansible/windows?extIdCarryOver=true&sc_cid=701f2000001OH7YAAW)
+
+
